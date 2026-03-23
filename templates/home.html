@@ -36,15 +36,21 @@
                     <div class="card-body">
                         {{task.task}}
                         <span style="position: relative; float: right;">
-                            <button class="btn btn-success">
+                            
+                            <!-- ✅ FIXED HERE -->
+                            <a href="{% url 'todo:mark_as_done' task.pk %}" class="btn btn-success">
                                 <i class="fa fa-check"></i> Mark as Done
-                            </button>
-                            <button class="btn btn-danger">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                            <button class="btn btn-primary">
+                            </a>
+
+                            <form action="{% url 'todo:delete' task.pk %}" method="POST" style="display:inline;">
+                              {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">
+                                  <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                            <a href="{% url 'todo:editTask' task.pk %}" class="btn btn-primary">
                                 <i class="fa fa-pencil"></i>
-                            </button>
+                            </a>
                         </span>
                     </div>
                 </div>
@@ -59,6 +65,11 @@
                 <div class="card m-1">
                     <div class="card-body">
                         {{completed.task}}
+                        <span style="position: relative; float: right;">
+                            <a href="{% url 'todo:mark_as_undone' completed.pk %}" class="btn btn-danger">
+                                <i class="fa fa-times"></i> Mark as UnDone
+                            </a>
+                        </span>
                     </div>
                 </div>
                 {% endfor %}
